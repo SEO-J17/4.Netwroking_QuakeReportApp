@@ -33,8 +33,11 @@ class MainActivity : AppCompatActivity() {
     inner class EarthquakeAsyncTask : AsyncTask<String, Unit, MutableList<QuakeInfo>>() {
         @Deprecated("Deprecated in Java")
         override fun doInBackground(vararg urls: String?): MutableList<QuakeInfo>? {
-            if (urls.isEmpty()) return null
-            return urls[0]?.let { QueryUtils().fetchEarthquakeData(it) }
+            return if (urls.isEmpty()) {
+                null
+            } else {
+                urls[0]?.let { QueryUtils().fetchEarthquakeData(it) }
+            }
         }
 
         @Deprecated("Deprecated in Java")
