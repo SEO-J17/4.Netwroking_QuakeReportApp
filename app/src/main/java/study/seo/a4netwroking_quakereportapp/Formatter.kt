@@ -6,18 +6,14 @@ import java.util.*
 
 class Formatter {
     fun formatDate(target: Long): String {
-        val dateObject = Date(target)
-        return SimpleDateFormat("MMM DD, yyyy").format(dateObject)
+        return SimpleDateFormat("MMM DD, yyyy").format(Date(target))
     }
 
     fun formatTime(target: Long): String {
-        val dateObject = Date(target)
-        return SimpleDateFormat("h:mm, a").format(dateObject)
+        return SimpleDateFormat("h:mm, a").format(Date(target))
     }
 
     fun formatDecimal(target: Double): String {
-        val doubleNum = target * 2.0
-        val formatter = DecimalFormat("0.00")
-        return formatter.format(doubleNum)
+        return DecimalFormat("0.00").format(target)
     }
 }
