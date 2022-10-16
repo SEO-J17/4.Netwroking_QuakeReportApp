@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.earthquake_activity)
 
-        EarthquakeAsyncTask().execute(REQUSET_URL).get()?.let {
-            findViewById<ListView>(R.id.list).adapter = QuakeListAdapter(this, it)
+        EarthquakeAsyncTask().execute(REQUSET_URL).get()?.let { dataSet ->
+            findViewById<ListView>(R.id.list).adapter = QuakeListAdapter(this, dataSet)
         }
 
         //listView.emptyView = findViewById<TextView>(R.id.empty_view)
