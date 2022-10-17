@@ -30,7 +30,6 @@ class QuakeListAdapter(val context: Context, val dataSet: MutableList<QuakeInfo>
             view.findViewById<TextView>(R.id.magnitude)
                 .text = Formatter().formatDecimal(mag)
 
-
             view.findViewById<TextView>(R.id.quake_area).apply {
                 val primaryView = view.findViewById<TextView>(R.id.primary_area)
                 val separator = " of "
@@ -47,10 +46,8 @@ class QuakeListAdapter(val context: Context, val dataSet: MutableList<QuakeInfo>
             view.findViewById<TextView>(R.id.quake_date)
                 .text = Formatter().formatDate(time)
 
-
             view.findViewById<TextView>(R.id.quake_time)
                 .text = Formatter().formatTime(time)
-
 
             view.setOnClickListener {
                 Intent(
@@ -59,7 +56,6 @@ class QuakeListAdapter(val context: Context, val dataSet: MutableList<QuakeInfo>
                 ).apply { context.startActivity(this@apply) }
             }
         }
-
 //        //TODO:컬러안바뀌는 오류 해결하기
 //        val gradientDrawable: GradientDrawable = mag.background as GradientDrawable
 //        gradientDrawable.setColor(R.color.magnitude7)

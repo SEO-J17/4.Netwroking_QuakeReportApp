@@ -1,7 +1,6 @@
 package study.seo.a4netwroking_quakereportapp
 
 import android.content.Context
-import androidx.loader.content.AsyncTaskLoader
 import study.seo.a4netwroking_quakereportapp.data.QuakeInfo
 
 class EarthquakeLoader(context: Context, val url: String) :
