@@ -6,6 +6,7 @@ import android.app.LoaderManager.LoaderCallbacks
 import android.content.Loader
 import android.view.View
 import android.widget.ListView
+import android.widget.ProgressBar
 import android.widget.TextView
 import study.seo.a4netwroking_quakereportapp.data.QuakeInfo
 
@@ -14,16 +15,11 @@ class MainActivity : AppCompatActivity(), LoaderCallbacks<MutableList<QuakeInfo>
         "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=5&limit=10"
     private val loader_id = 1
     private lateinit var listView: ListView
-    private lateinit var emptyTextView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.earthquake_activity)
 
         listView = findViewById<ListView>(R.id.list)
-        emptyTextView = findViewById<TextView>(R.id.empty_view).apply {
-            setText(R.string.no_earthquakes)
-        }
-
         loaderManager.initLoader(loader_id, null, this)
     }
 
@@ -39,10 +35,10 @@ class MainActivity : AppCompatActivity(), LoaderCallbacks<MutableList<QuakeInfo>
         loader: android.content.Loader<MutableList<QuakeInfo>>?,
         data: MutableList<QuakeInfo>?
     ) {
+        findViewById<ProgressBar>(R.id.loading_bar).visibility = View.GONE
         data?.let {
-            emptyTextView.visibility = View.INVISIBLE
             listView.adapter = QuakeListAdapter(this, it)
-        } ?: run { emptyTextView.visibility = View.VISIBLE }
+        } ?: findViewById<TextView>(R.id.empty_view).setText(R.string.no_earthquakes)
     }
 
     @Deprecated("Deprecated in Java")
