@@ -17,9 +17,7 @@ class QuakeListAdapter(val context: Context, val dataSet: MutableList<QuakeInfo>
 
     override fun getItem(position: Int): Any = dataSet[position]
 
-    override fun getItemId(p0: Int): Long {
-        return 0
-    }
+    override fun getItemId(p0: Int): Long = 0
 
     @SuppressLint("ViewHolder", "ResourceAsColor")
     override fun getView(positon: Int, convertView: View?, parent: ViewGroup?): View {
@@ -29,9 +27,9 @@ class QuakeListAdapter(val context: Context, val dataSet: MutableList<QuakeInfo>
 
 
         with(dataSet[positon]) {
-            view.findViewById<TextView>(R.id.magnitude).apply {
-                text = Formatter().formatDecimal(mag)
-            }
+            view.findViewById<TextView>(R.id.magnitude)
+                .text = Formatter().formatDecimal(mag)
+
 
             view.findViewById<TextView>(R.id.quake_area).apply {
                 val primaryView = view.findViewById<TextView>(R.id.primary_area)
@@ -46,13 +44,13 @@ class QuakeListAdapter(val context: Context, val dataSet: MutableList<QuakeInfo>
                 }
             }
 
-            view.findViewById<TextView>(R.id.quake_date).apply {
-                text = Formatter().formatDate(time)
-            }
+            view.findViewById<TextView>(R.id.quake_date)
+                .text = Formatter().formatDate(time)
 
-            view.findViewById<TextView>(R.id.quake_time).apply {
-                text = Formatter().formatTime(time)
-            }
+
+            view.findViewById<TextView>(R.id.quake_time)
+                .text = Formatter().formatTime(time)
+
 
             view.setOnClickListener {
                 Intent(
