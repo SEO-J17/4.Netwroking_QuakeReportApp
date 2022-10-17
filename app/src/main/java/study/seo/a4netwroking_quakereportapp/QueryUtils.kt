@@ -27,9 +27,8 @@ class QueryUtils {
 
 
     private fun makeHttpRequest(url: URL): String {
-        val urlConnection = url.openConnection() as? HttpURLConnection
         try {
-            urlConnection?.apply {
+            (url.openConnection() as? HttpURLConnection)?.apply {
                 readTimeout = 10000
                 connectTimeout = 15000
                 requestMethod = "GET"
@@ -40,7 +39,6 @@ class QueryUtils {
                         return readFromStream(inputStream)
                     }
                 }
-
             } ?: Log.e("QueryUtils", "url connection이 NULL입니다")
         } catch (e: IOException) {
             Log.e("QueryUtils", "Problem retrieving the earthquake JSON results.", e)
@@ -72,18 +70,18 @@ class QueryUtils {
         val quakeList: MutableList<QuakeInfo> = mutableListOf()
         if (earthQuakeJSON.isEmpty()) return null
         try {
-            JSONObject(earthQuakeJSON).getJSONArray("features").run {
+            JSONObject(earthQuakeJSON).getJSONArray("features").apply {
                 for (index in 0 until length()) {
-                    val property = getJSONObject(index).getJSONObject("properties")
-                    quakeList.add(
-                        QuakeInfo(
-                            property.getDouble("mag"),
-                            property.getString("place"),
-                            property.getLong("time"),
-                            property.getString("url")
+                    with(getJSONObject(index).getJSONObject("properties")) {
+                        quakeList.add(
+                            QuakeInfo(
+                                getDouble("mag"),
+                                getString("place"),
+                                getLong("time"),
+                                getString("url")
+                            )
                         )
-                    )
-
+                    }
                 }
             }
         } catch (e: JSONException) {
