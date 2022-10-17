@@ -6,7 +6,7 @@ import java.util.*
 
 class Formatter {
     fun formatDate(target: Long): String {
-        return SimpleDateFormat("MMM DD, yyyy").format(Date(target))
+        return SimpleDateFormat("LLL dd, yyyy").format(Date(target))
     }
 
     fun formatTime(target: Long): String {
