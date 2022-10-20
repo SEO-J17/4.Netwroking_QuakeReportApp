@@ -67,16 +67,8 @@ object QueryUtils {
         try {
             JSONObject(earthQuakeJSON).getJSONArray("features").apply {
                 for (index in 0 until length()) {
-                    with(getJSONObject(index).getJSONObject("properties")) {
-                        quakeList.add(
-                            QuakeInfo(
-                                getDouble("mag"),
-                                getString("place"),
-                                getLong("time"),
-                                getString("url")
-                            )
-                        )
-                    }
+                    val property = getJSONObject(index).getJSONObject("properties")
+                    quakeList.add(QuakeInfo(property))
                 }
             }
         } catch (e: JSONException) {
