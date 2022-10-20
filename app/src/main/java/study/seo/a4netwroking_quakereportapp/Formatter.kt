@@ -4,7 +4,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Formatter {
+object Formatter {
     fun formatDate(target: Long): String {
         return SimpleDateFormat("LLL dd, yyyy").format(Date(target))
     }
