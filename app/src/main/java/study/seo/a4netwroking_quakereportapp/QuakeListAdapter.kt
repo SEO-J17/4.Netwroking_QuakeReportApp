@@ -7,18 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import study.seo.a4netwroking_quakereportapp.data.QuakeInfo
+import study.seo.a4netwroking_quakereportapp.data.QuakeProperty
 import study.seo.a4netwroking_quakereportapp.databinding.EarthquakeListItemBinding
 
-class QuakeListAdapter(val dataSet: MutableList<QuakeInfo>) : BaseAdapter() {
+class QuakeListAdapter(val dataSet: MutableList<QuakeProperty>) : BaseAdapter() {
     private lateinit var binding: EarthquakeListItemBinding
     private lateinit var bindingRootView: View
 
     override fun getCount(): Int = dataSet.size
 
-    override fun getItem(position: Int): QuakeInfo = dataSet[position]
+    override fun getItem(position: Int): QuakeProperty = dataSet[position]
 
-    override fun getItemId(position: Int): Long = 0
+    override fun getItemId(position: Int): Long = position.toLong()
 
     override fun getView(positon: Int, convertView: View?, parent: ViewGroup): View {
         convertView ?: run {

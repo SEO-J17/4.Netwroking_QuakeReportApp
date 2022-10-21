@@ -1,17 +1,21 @@
 package study.seo.a4netwroking_quakereportapp
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import android.app.LoaderManager.LoaderCallbacks
-import android.content.Loader
+import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import study.seo.a4netwroking_quakereportapp.data.QuakeInfo
 import study.seo.a4netwroking_quakereportapp.databinding.EarthquakeActivityBinding
+import study.seo.a4netwroking_quakereportapp.network.RetrtofitAPI
 
-class MainActivity : AppCompatActivity(), LoaderCallbacks<MutableList<QuakeInfo>> {
+class MainActivity : AppCompatActivity() {
     private val request_url =
-        "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=5&limit=10"
-    private val loader_id = 1
+        "https://earthquake.usgs.gov"
     private lateinit var binding: EarthquakeActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,27 +23,25 @@ class MainActivity : AppCompatActivity(), LoaderCallbacks<MutableList<QuakeInfo>
         binding = EarthquakeActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loaderManager.initLoader(loader_id, null, this)
-    }
+        val retrofit = Retrofit.Builder().baseUrl(request_url)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+        val api = retrofit.create(RetrtofitAPI::class.java)
 
-    override fun onCreateLoader(
-        id: Int,
-        args: Bundle?
-    ): Loader<MutableList<QuakeInfo>> =
-        EarthquakeLoader(this, request_url)
+        api.getQuakeInfo("geojson", "time", 5, 10).enqueue(object : Callback<QuakeInfo> {
+            override fun onResponse(call: Call<QuakeInfo>, response: Response<QuakeInfo>) {
+                if (response.isSuccessful) {
+                    binding.list.adapter =
+                        QuakeListAdapter(QueryUtils.extractEarthquakes(response.body()))
+                    binding.loadingBar.visibility = View.GONE
+                } else {
+                    Log.e("SEOJW", "실패!! ")
+                }
+            }
 
-    override fun onLoadFinished(
-        loader: Loader<MutableList<QuakeInfo>>?,
-        data: MutableList<QuakeInfo>?
-    ) {
-        binding.loadingBar.visibility = View.GONE
-        data?.let {
-            binding.list.adapter = QuakeListAdapter(it)
-        }
-    }
-
-    override fun onLoaderReset(loader: Loader<MutableList<QuakeInfo>>?) {
-        loader?.reset()
+            override fun onFailure(call: Call<QuakeInfo>, t: Throwable) {
+                Log.e("SEOJW", "onFailure 에러: " + t.message.toString());
+            }
+        })
     }
 }
 
